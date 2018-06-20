@@ -170,12 +170,9 @@ public class consulta extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 FiltroDao fd =new FiltroDao();
                 Movie f;
-                f = new movie(Nombre.getText(), Clasificacion.getSelectedItem().toString(),
+                f = new Movie(Nombre.getText(), Clasificacion.getSelectedItem().toString(),
                         (Director.getText()),(Pais.getText()),(Año.getText()),(true));
-                
-                if(no.isSelected()){
-                    f.setExistencia(false);
-                }
+            
                 if (fd.create(f)){
                     JOptionPane.showMessageDialog(null,"Pelicula registrado con exito");
                     limpiarCampos();
@@ -187,7 +184,7 @@ public class consulta extends JFrame{
         });
         eliminar.addActionListener((ActionEvent e) -> {
             FiltroDao fd = new FiltroDao();
-            if(fd.delete(codigo.getText())){
+            if(fd.delete(Nombre.getText())){
                 
                 JOptionPane.showMessageDialog(null,"Filtro Eliminado con exito");
                 limpiarCampos();
@@ -199,7 +196,7 @@ public class consulta extends JFrame{
         
         eliminar.addActionListener((ActionEvent e) -> {
             FiltroDao fd = new FiltroDao();
-            if(fd.delete(codigo.getText())){
+            if(fd.delete(Director.getText())){
                 JOptionPane.showMessageDialog(null,"Filtro Eliminado con exito");
                 limpiarCampos();
                 llenarTabla();
@@ -210,18 +207,18 @@ public class consulta extends JFrame{
         
         buscar.addActionListener((ActionEvent e) -> {
             FiltroDao fd = new FiltroDao();
-            Movie f = fd.read(codigo.getText());
+            Movie f = fd.read(Director.getText());
             if(f==null){
                 JOptionPane.showMessageDialog(null, "El filtro buscado no se a encontrado");
             }else{
-                codigo.setText(f.getCodigo());
-                marca.setSelectedItem(f.getMarca());
-                stock.setText(Integer.toString(f.getStock()));
+                Director.setText(f.getDirector());
+                Clasificacion.setSelectedItem(f.getClasificacion());
+                Pais.setText(Integer.toString(f.getPais()));
                 
-                if(f.getExistencia()){
+                if(f.getEnProyeccion()){
                     si.setSelected(true);
                 }else{
-                    no.setSelected(true);
+                    false;
                 }
             }
         });
