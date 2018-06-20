@@ -215,22 +215,14 @@ public class consulta extends JFrame{
                 Clasificacion.setSelectedItem(f.getClasificacion());
                 Pais.setText(Integer.toString(f.getPais()));
                 
-                if(f.getEnProyeccion()){
-                    si.setSelected(true);
-                }else{
-                    false;
-                }
             }
         });
         
-            limpiar.addActionListener((ActionEvent e) -> {
-                limpiarCampos();
-        });
         }
     public void limpiarCampos(){
-        codigo.setText("");
-        marca.setSelectedItem("FRAM");
-        stock.setText("");
+        Nombre.setText("");
+        Clasificacion.setSelectedItem("FRAM");
+        Director.setText("");
     }
      public static void main(String[] args) {
         // TODO code application logic here
@@ -243,4 +235,3 @@ public class consulta extends JFrame{
     }
 }
     
-}
