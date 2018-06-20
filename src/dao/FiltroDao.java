@@ -80,12 +80,15 @@ public class FiltroDao implements metodos <Movie> {
     public boolean update(Movie c) {
        PreparedStatement ps;
        try{
-           System.out.println(c.getCodigo());
+           System.out.println(c.getNombre());
            ps=(PreparedStatement) con.getCnx().prepareStatement(SQL_UPDATE);
-           ps.setString(1,c.getMarca());
-           ps.setInt(2, c.getStock());
-           ps.setBoolean(3, c.getExistencia());
-           ps.setString(4, c.getCodigo());
+           ps.setString(1,c.getNombre());
+           ps.setString(2,c.getDirector());
+           ps.setString(3,c.getPais());
+           ps.setInt(4,c.getAño());
+           ps.setString(5,c.getClasificacion());
+           ps.setBoolean(6,c.getEnProyeccion());
+           
            if (ps.executeUpdate()>0){
                return true;
            }
@@ -109,7 +112,7 @@ public class FiltroDao implements metodos <Movie> {
            
            rs=ps.executeQuery();
            while(rs.next()){
-               f = new Movie(rs.getString(1), rs.getString(2),rs.getString(3),rs.getString(4), rs.getString(5));
+               f = new Movie(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getString(4), rs.getInt(5), rs.getBoolean(6));
            }
            rs.close();
        }
@@ -123,27 +126,22 @@ public class FiltroDao implements metodos <Movie> {
     }
 
     @Override
-    public ArrayList<filtro> readAll() {
-        ArrayList<filtro> all = new ArrayList();
+    public ArrayList<Movie> readAll() {
+        Movie f= null;
+        ArrayList<Movie> all = new ArrayList();
         Statement s;
         ResultSet rs;
         try{
             s= con.getCnx().prepareStatement(SQL_READALL);
             rs= s.executeQuery(SQL_READALL);
             while(rs.next()){
-                all.add(new filtro(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getInt(4), rs.getBoolean(5)));
-            }
+                f= new Movie(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getString(4), rs.getInt(5), rs.getBoolean(6));
+            } 
             rs.close();
         }
         catch(SQLException ex){
             Logger.getLogger(FiltroDao.class.getName()).log(Level.SEVERE, null,ex);
         }
        return all;
-    }
-
-    @Override
-    public boolean update(Movie c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+    } 
 }
