@@ -5,7 +5,7 @@
  */
 package vista;
 
-import dao.FiltroDao;
+import dao.MovieDao;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,7 +67,7 @@ public class consulta extends JFrame{
         container.add(actualizar);
         container.add(eliminar);
         container.add(table);
-        setSize(600,600);
+        setSize(750,750);
         eventos();       
     }
     public final void agregarLabels(){
@@ -138,7 +138,7 @@ public class consulta extends JFrame{
                     case 4: 
                         return String.class;
                     case 5: 
-                        return String.class;
+                        return int.class;
                     default :
                         return Boolean.class;
                 }
@@ -153,11 +153,11 @@ public class consulta extends JFrame{
         tm.addColumn("En Proyeccion");
         
         // consulta a la base de datos por metodo readAll
-        FiltroDao fd = new FiltroDao();
+        MovieDao fd = new MovieDao();
         ArrayList <Movie> movies = fd.readAll();
         
         movies.forEach((fi) -> {
-            tm.addRow(new Object[]{ fi.getId(),fi.getNombre(), fi.getDirector(), fi.getPais(), fi.getClasificacion(), fi.getAño(),fi.getEnProyeccion()});
+            tm.addRow(new Object[]{fi.getNombre(), fi.getDirector(), fi.getPais(), fi.getClasificacion(), fi.getAño(),fi.getEnProyeccion()});
         });
         
         resultados.setModel(tm);
@@ -168,12 +168,11 @@ public class consulta extends JFrame{
         insertar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FiltroDao fd =new FiltroDao();
-                Movie f;
-                f = new Movie(Nombre.getText(), Clasificacion.getSelectedItem().toString(),
-                        (Director.getText()),(Pais.getText()),(Año.getText()),(true));
+              MovieDao md =new MovieDao();
+              Movie m = new Movie(Nombre.getText(), Director.getText(),Pais.getText(), (String) Clasificacion.getSelectedItem(),
+                      Integer.parseInt(Año.getText()),true);
             
-                if (fd.create(f)){
+                if (md.create(m)){
                     JOptionPane.showMessageDialog(null,"Pelicula registrado con exito");
                     limpiarCampos();
                     llenarTabla();
@@ -182,22 +181,31 @@ public class consulta extends JFrame{
                 }
             }
         });
-        eliminar.addActionListener((ActionEvent e) -> {
-            FiltroDao fd = new FiltroDao();
-            if(fd.delete(Nombre.getText())){
-                
-                JOptionPane.showMessageDialog(null,"Filtro Eliminado con exito");
-                limpiarCampos();
-                llenarTabla();
-            }else{
+        actualizar.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+            MovieDao md = new MovieDao();
+            Movie m = new Movie(Nombre.getText(), Director.getText(),Pais.getText(), (String) Clasificacion.getSelectedItem(),
+                      Integer.parseInt(Año.getText()),true);
+             
+            if(si.isSelected()){
+                m.setEnProyeccion(true);
+            }
+            
+            if (md.update(m)){
+               JOptionPane.showMessageDialog(null,"Filtro Modificado con exito");
+               limpiarCampos();
+               llenarTabla();
+            } else{
                 JOptionPane.showMessageDialog(null,"Ocurrio un problema al momento de modificar el filtro");
             }
+            }    
         });
         
         eliminar.addActionListener((ActionEvent e) -> {
-            FiltroDao fd = new FiltroDao();
-            if(fd.delete(Director.getText())){
-                JOptionPane.showMessageDialog(null,"Filtro Eliminado con exito");
+            MovieDao md = new MovieDao();
+            if(md.delete(Nombre.getText())){
+                JOptionPane.showMessageDialog(null,"Pelicula Eliminada con exito");
                 limpiarCampos();
                 llenarTabla();
             }else{
@@ -206,14 +214,14 @@ public class consulta extends JFrame{
         });
         
         buscar.addActionListener((ActionEvent e) -> {
-            FiltroDao fd = new FiltroDao();
-            Movie f = fd.read(Director.getText());
-            if(f==null){
-                JOptionPane.showMessageDialog(null, "El filtro buscado no se a encontrado");
+            MovieDao md = new MovieDao();
+            Movie m = md.read(Nombre.getText());
+            if(m==null){
+                JOptionPane.showMessageDialog(null, "La pelicula no se a encontrado");
             }else{
-                Director.setText(f.getDirector());
-                Clasificacion.setSelectedItem(f.getClasificacion());
-                Pais.setText(Integer.toString(f.getPais()));
+                Director.setText(m.getDirector());
+                Clasificacion.setSelectedItem(m.getClasificacion());
+                Pais.setText(m.getPais());
                 
             }
         });
@@ -221,9 +229,10 @@ public class consulta extends JFrame{
         }
     public void limpiarCampos(){
         Nombre.setText("");
-        Clasificacion.setSelectedItem("FRAM");
+        Clasificacion.setSelectedItem("R");
         Director.setText("");
     }
+    
      public static void main(String[] args) {
         // TODO code application logic here
         java.awt.EventQueue.invokeLater(new Runnable(){

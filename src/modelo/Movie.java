@@ -10,7 +10,6 @@ package modelo;
  * @author LN710Q
  */
 public class Movie {
-    private int id;
     private String Nombre;
     private String Director;
     private String Pais;
@@ -21,8 +20,7 @@ public class Movie {
     public Movie(){
     }
     
-    public Movie(int id,String Nombre, String Director, String Pais, String Clasificacion, int año,boolean EnProyeccion){
-        this.id=id;
+    public Movie(String Nombre, String Director, String Pais, String Clasificacion, int año,boolean EnProyeccion){
         this.Nombre= Nombre;
         this.Director= Director;
         this.Pais= Pais;
@@ -44,17 +42,10 @@ public class Movie {
         this.EnProyeccion=EnProyeccion;
     }
 
-    public Movie(int aInt, String string, String string0, String string1, int aInt0, boolean aBoolean) {
+    public Movie(String string, String string0, String string1, int aInt, boolean aBoolean) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return Nombre;

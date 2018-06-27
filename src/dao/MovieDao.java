@@ -24,12 +24,12 @@ import java.util.logging.Logger;
  *
  * @author LN710Q
  */
-public class FiltroDao implements metodos <Movie> {
+public class MovieDao implements metodos <Movie> {
     
     private static final String SQL_INSERT ="INSERT INTO movie(nombre,año,director,pais,clasificacion,proyeccion) VALUES (?,?,?,?,?,?)";
-    private static final String SQL_UPDATE ="UPDATE movie SET nombre =?,año=?, director=? pais=?,clasificacion=?,proyeccion=? WHERE codMovie=?";
-    private static final String SQL_DELETE = "DELETE FROM movie WHERE idMovie=?";
-    private static final String SQL_READ ="SELECT * FROM movie WHERE idMovie=?";
+    private static final String SQL_UPDATE ="UPDATE movie SET proyeccion=? WHERE Nombre=?";
+    private static final String SQL_DELETE = "DELETE FROM movie WHERE Nombre=?";
+    private static final String SQL_READ ="SELECT * FROM movie WHERE Nombre=?";
     private static final String SQL_READALL ="SELECT * FROM movie";
 
     private static final conexion con =conexion.conectar();
@@ -49,7 +49,7 @@ public class FiltroDao implements metodos <Movie> {
             }           
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
-            Logger.getLogger(FiltroDao.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE,null,ex);
         }finally{
             con.cerrarConexion();
         }
@@ -69,7 +69,7 @@ public class FiltroDao implements metodos <Movie> {
             }
         }catch (SQLException ex){
             System.out.println(ex.getMessage());
-            Logger.getLogger(FiltroDao.class.getName()).log(Level.SEVERE,null,ex);
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE,null,ex);
         }finally{
             con.cerrarConexion();
         }
@@ -82,19 +82,19 @@ public class FiltroDao implements metodos <Movie> {
        try{
            System.out.println(c.getNombre());
            ps=(PreparedStatement) con.getCnx().prepareStatement(SQL_UPDATE);
-           ps.setString(1,c.getNombre());
-           ps.setString(2,c.getDirector());
-           ps.setString(3,c.getPais());
-           ps.setInt(4,c.getAño());
-           ps.setString(5,c.getClasificacion());
-           ps.setBoolean(6,c.getEnProyeccion());
+        //   ps.setString(1,c.getNombre());
+          // ps.setString(2,c.getDirector());
+        //   ps.setString(3,c.getPais());
+          // ps.setInt(4,c.getAño());
+        //s.setString(5,c.getClasificacion());
+           ps.setBoolean(1,c.getEnProyeccion());
            
            if (ps.executeUpdate()>0){
                return true;
            }
        }catch(SQLException ex){
            System.out.println(ex.getMessage());
-           Logger.getLogger(FiltroDao.class.getName()).log(Level.SEVERE,null,ex);
+           Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE,null,ex);
        }finally{
            con.cerrarConexion();
        }
@@ -103,7 +103,7 @@ public class FiltroDao implements metodos <Movie> {
 
     @Override
     public Movie read(Object key) {
-       Movie f=null;
+       Movie m=null;
        PreparedStatement ps;
        ResultSet rs;
        try{
@@ -112,22 +112,22 @@ public class FiltroDao implements metodos <Movie> {
            
            rs=ps.executeQuery();
            while(rs.next()){
-               f = new Movie(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getString(4), rs.getInt(5), rs.getBoolean(6));
+               m= new Movie(rs.getString(1), rs.getString(2),rs.getString(3), rs.getInt(4), rs.getBoolean(5));
            }
            rs.close();
        }
        catch(SQLException ex){
            System.out.println(ex.getMessage());
-           Logger.getLogger(FiltroDao.class.getName()).log(Level.SEVERE,null,ex);
+           Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE,null,ex);
        }finally{
            con.cerrarConexion();
     }
-       return f;
+       return m;
     }
 
     @Override
     public ArrayList<Movie> readAll() {
-        Movie f= null;
+        Movie m= null;
         ArrayList<Movie> all = new ArrayList();
         Statement s;
         ResultSet rs;
@@ -135,12 +135,12 @@ public class FiltroDao implements metodos <Movie> {
             s= con.getCnx().prepareStatement(SQL_READALL);
             rs= s.executeQuery(SQL_READALL);
             while(rs.next()){
-                f= new Movie(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getString(4), rs.getInt(5), rs.getBoolean(6));
+                all.add(new Movie(rs.getString(1), rs.getString(2),rs.getString(3), rs.getInt(4), rs.getBoolean(5)));
             } 
             rs.close();
         }
         catch(SQLException ex){
-            Logger.getLogger(FiltroDao.class.getName()).log(Level.SEVERE, null,ex);
+            Logger.getLogger(MovieDao.class.getName()).log(Level.SEVERE, null,ex);
         }
        return all;
     } 
