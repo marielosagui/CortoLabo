@@ -62,13 +62,8 @@ public class consulta extends JFrame{
         container.add(Director);
         container.add(Pais);
         container.add(Año);
-        container.add(buscar);
-        container.add(insertar);
-        container.add(actualizar);
-        container.add(eliminar);
-        container.add(table);
         setSize(750,750);
-        eventos();       
+       // eventos();       
     }
     public final void agregarLabels(){
         lblNombre =new JLabel("Nombre");
