@@ -10,90 +10,78 @@ package modelo;
  * @author LN710Q
  */
 public class Movie {
-    private String Nombre;
-    private String Director;
-    private String Pais;
-    private String Clasificacion;
+    private int idMovie;
+    private String nombre;
+    private String director;
+    private String pais;
+    private String clasificacion;
     private int año;
-    private boolean EnProyeccion;
-    
+    private boolean en_proyeccion;
+
     public Movie(){
     }
-    
-    public Movie(String Nombre, String Director, String Pais, String Clasificacion, int año,boolean EnProyeccion){
-        this.Nombre= Nombre;
-        this.Director= Director;
-        this.Pais= Pais;
-        this.Clasificacion= Clasificacion;
-        this.año=año;
-        this.EnProyeccion=EnProyeccion;
-    }
-    
-    public Movie(String Nombre, String Director, int año,boolean EnProyeccion){
-        this.Nombre=Nombre;
-        this.Director=Director;
-        this.año=año;
-        this.EnProyeccion=EnProyeccion;
-    }
-    
-    public Movie(String Nombre, String Clasificacion, boolean EnProyeccion){
-        this.Nombre=Nombre;
-        this.Clasificacion=Clasificacion;
-        this.EnProyeccion=EnProyeccion;
+
+    public Movie(int idMovie, String nombre, String director, String pais, String clasificacion, int año, boolean en_proyeccion) {
+        this.idMovie = idMovie;
+        this.nombre = nombre;
+        this.director = director;
+        this.pais = pais;
+        this.clasificacion = clasificacion;
+        this.año = año;
+        this.en_proyeccion = en_proyeccion;
     }
 
-    public Movie(String string, String string0, String string1, int aInt, boolean aBoolean) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        public Movie(String nombre, String director, String pais, String clasificacion, int año, boolean en_proyeccion) {
+        this.nombre = nombre;
+        this.director = director;
+        this.pais = pais;
+        this.clasificacion = clasificacion;
+        this.año = año;
+        this.en_proyeccion = en_proyeccion;
+    }
+    public int getIdMovie() {
+        return idMovie;
     }
 
+    public void setIdMovie(int idMovie) {
+        this.idMovie = idMovie;
+    }
 
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
-
-    public void setNombre(String Nombre) {
-        this.Nombre = Nombre;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
-
     public String getDirector() {
-        return Director;
+        return director;
     }
-
-    public void setDirector(String Director) {
-        this.Director = Director;
+    public void setDirector(String director) {
+        this.director = director;
     }
-
     public String getPais() {
-        return Pais;
+        return pais;
     }
-
-    public void setPais(String Pais) {
-        this.Pais = Pais;
+    public void setPais(String pais) {
+        this.pais = pais;
     }
-
     public String getClasificacion() {
-        return Clasificacion;
+        return clasificacion;
     }
-
-    public void setClasificacion(String Clasificacion) {
-        this.Clasificacion = Clasificacion;
+    public void setClasificacion(String clasificacion) {
+        this.clasificacion = clasificacion;
     }
-
     public int getAño() {
         return año;
     }
-
-    public void setAño(int año) {
-        this.año = año;
+    public void setAño(int anio) {
+        this.año = anio;
+    }
+    public boolean isEn_proyeccion() {
+        return en_proyeccion;
+    }
+    public void setEn_proyeccion(boolean en_proyeccion) {
+        this.en_proyeccion = en_proyeccion;
     }
 
-    public boolean getEnProyeccion() {
-        return EnProyeccion;
-    }
-
-    public void setEnProyeccion(boolean EnProyeccion) {
-        this.EnProyeccion = EnProyeccion;
-    }
-    
-    
 }

@@ -30,22 +30,21 @@ import modelo.Movie;
  * @author LN710Q
  */
 public class consulta extends JFrame{
-    
-    public JLabel lblNombre, lblDirector, lblPais, lblClasificacion, lblAño;
-    public JTextField Nombre, Director, Pais, Año;
-    public JComboBox Clasificacion;
-    public JCheckBox EnProyeccion;
+    public JLabel lblNombre, lblDirector, lblPais, lblClasificacion, lblAnio, lblEnProyeccion;
+    public JTextField nombre, director, pais, anio;
+    public JComboBox clasificacion;
+    ButtonGroup existencia = new ButtonGroup();
     public JRadioButton si;
+    public JRadioButton no;
     public JTable resultados;
-    
     public JPanel table;
-    public JButton insertar,eliminar,actualizar,buscar;
-    private static final int ANCHOC=180, ALTOC =50;
-    
+    public JButton insertar, eliminar, actualizar, buscar;
+    private static final int ANCHOC = 150, ALTOC = 30;
     DefaultTableModel tm;
+   
     
     public consulta(){
-        super("CINEPOLIX");
+        super("--CINEPOLIX--");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         agregarLabels();
@@ -53,122 +52,181 @@ public class consulta extends JFrame{
         llenarTabla();
         Container container = getContentPane();
         container.add(lblNombre);
+        container.add(clasificacion);
         container.add(lblDirector);
         container.add(lblPais);
         container.add(lblClasificacion);
-        container.add(lblAño);
-        container.add(EnProyeccion);
-        container.add(Nombre);
-        container.add(Director);
-        container.add(Pais);
-        container.add(Año);
-        setSize(750,750);
-       // eventos();       
+        container.add(lblAnio);
+        container.add(nombre);
+        container.add(director);
+        container.add(pais);
+        container.add(anio);
+        container.add(si);
+        container.add(no);
+        container.add(table);
+        container.add(insertar);
+        container.add(eliminar);
+        container.add(actualizar);
+        container.add(buscar);
+        container.add(lblEnProyeccion);
+        setSize(1000,500);
+        eventos();
     }
-    public final void agregarLabels(){
-        lblNombre =new JLabel("Nombre");
-        lblDirector =new JLabel ("Director");
-        lblPais=new JLabel("Pais");
-        lblClasificacion = new JLabel("Clasificacion");
-        lblAño = new JLabel("Año");
-        lblNombre.setBounds(10, 10, ANCHOC, ALTOC);
-        lblDirector.setBounds(10,60,ANCHOC,ALTOC);
-        lblPais.setBounds(1, 100,ANCHOC, ALTOC);
-        lblClasificacion.setBounds(10, 140, ANCHOC,ALTOC);
-        lblAño.setBounds(10, 140, ANCHOC,ALTOC);
+        public final void agregarLabels(){
+        lblNombre = new JLabel("Nombre:");
+        lblDirector = new JLabel("Director:");
+        lblPais = new JLabel ("Pais:");
+        lblClasificacion = new JLabel ("Clasificacion:");
+        lblAnio = new JLabel ("Año:");
+        lblEnProyeccion = new JLabel("En proyección:");
+        lblNombre.setBounds(200, 50, 50, 30);
+        lblDirector.setBounds(200, 90, 60, 30);
+        lblPais.setBounds(220, 130, 50, 30);
+        lblClasificacion.setBounds(540, 50, 80, 30);
+        lblAnio.setBounds(590, 90, 50, 30);
+        lblEnProyeccion.setBounds(532, 130, 90, 30);
     }
+
     
     public final void formulario(){
-        Nombre =new JTextField();
-        Director= new JTextField();
-        Pais= new JTextField();
-        Año= new JTextField();
-        Clasificacion =new JComboBox();
-        si= new JRadioButton("si", true);
-        resultados =new JTable();
-        buscar= new JButton("Buscar");
-        insertar=new JButton("Insertar");
-        eliminar= new JButton("Eliminar");
-        actualizar= new JButton("Actualizar");
+        nombre = new JTextField();
+        director = new JTextField();
+        pais = new JTextField();
+        anio = new JTextField();
+        si = new JRadioButton("Si",true);
+        no = new JRadioButton("No");
+        clasificacion = new JComboBox();
+        resultados = new JTable();
+        buscar = new JButton("Buscar");
+        insertar = new JButton("Insertar");
+        eliminar = new JButton("Eliminar");
+        actualizar = new JButton("Actualizar");
+
+        clasificacion.addItem("G");
+        clasificacion.addItem("PG-13");
+        clasificacion.addItem("14A");
+        clasificacion.addItem("18A");
+        clasificacion.addItem("R");
+        clasificacion.addItem("A");
         
-        table =new JPanel();
-        //agregar elementos al combox clasificacion
-        
-        Clasificacion.addItem("G");
-        Clasificacion.addItem("PG");
-        Clasificacion.addItem("14A");
-        Clasificacion.addItem("18A");
-        Clasificacion.addItem("R");
-        Clasificacion.addItem("A");
-        
-        // agrear elementos al combox marca
-        
-        
-    Nombre.setBounds(140, 10, ANCHOC, ALTOC);
-    insertar.setBounds(140, 60, ANCHOC, ALTOC);
-    Director.setBounds(140, 100, ANCHOC, ALTOC);
-    Pais.setBounds(140, 140, 50, ALTOC);
-    Año.setBounds(140, 10, ANCHOC, ALTOC);
-    buscar.setBounds(300, 10, ANCHOC, ALTOC);
-    insertar.setBounds(10, 210, ANCHOC, ALTOC);
-    actualizar.setBounds(150, 210, ANCHOC, ALTOC);
-    eliminar.setBounds(140, 10, ANCHOC, ALTOC);
-    resultados = new JTable();
-    table.setBounds(10, 250, 500, 200);
-    table.add(new JScrollPane(resultados));
+        table = new JPanel();
+        existencia = new ButtonGroup();
+        existencia.add(si);
+        existencia.add(no);
+        nombre.setBounds(270, 50, ANCHOC, ALTOC);
+        director.setBounds(270, 90, ANCHOC, ALTOC);
+        pais.setBounds(270, 130, ANCHOC, ALTOC);
+        anio.setBounds(640, 90, ANCHOC, ALTOC);
+        si.setBounds(640, 130, 50, ALTOC);
+        no.setBounds(690, 130, 50, ALTOC);
+        int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
+        int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+
+
+        buscar.setBounds(740, 210, ANCHOC,ALTOC);
+        insertar.setBounds(90, 210, ANCHOC,ALTOC);
+        actualizar.setBounds(300, 210, ANCHOC,ALTOC);
+        eliminar.setBounds(530, 210, ANCHOC,ALTOC);
+        clasificacion.setBounds(640, 50, ANCHOC,ALTOC);
+        resultados=new JTable();
+        resultados.setBounds(0,250,1000,200);
+        table.setBounds(resultados.getBounds());
+        table.add(new JScrollPane(resultados));
     }
-    
-    public void llenarTabla(){
-        tm=new DefaultTableModel(){
-            public Class<?> getColumnClass(int column){
+
+        public void llenarTabla(){
+        tm = new DefaultTableModel(){
+        public Class<?> getColumnClass(int column){
                 switch(column){
+
                     case 0:
                         return String.class;
+
                     case 1:
                         return String.class;
-                    case 2: 
+
+                    case 2:
                         return String.class;
-                    case 3: 
+
+                    case 3:
                         return String.class;
-                    case 4: 
-                        return String.class;
-                    case 5: 
-                        return int.class;
-                    default :
+
+                    case 4:
+                        return Integer.class;
+
+                    default:
                         return Boolean.class;
                 }
             }
         };
-        // columnas que mostraran los respectivos nombres
+
+        
+
         tm.addColumn("Nombre");
         tm.addColumn("Director");
         tm.addColumn("Pais");
         tm.addColumn("Clasificacion");
         tm.addColumn("Año");
-        tm.addColumn("En Proyeccion");
+        tm.addColumn("En proyeccion");
         
-        // consulta a la base de datos por metodo readAll
         MovieDao fd = new MovieDao();
-        ArrayList <Movie> movies = fd.readAll();
+        ArrayList<Movie> filtros = fd.readAll();
         
-        movies.forEach((fi) -> {
-            tm.addRow(new Object[]{fi.getNombre(), fi.getDirector(), fi.getPais(), fi.getClasificacion(), fi.getAño(),fi.getEnProyeccion()});
-        });
-        
+        for (Movie fi : filtros){
+            tm.addRow(new Object[]{fi.getNombre(),fi.getDirector(), fi.getPais(), fi.getClasificacion(), fi.getAño(), fi.isEn_proyeccion()});
+        }
         resultados.setModel(tm);
     }
-    
-    public void eventos(){
+        public void eventos(){
+        insertar.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e){
+            MovieDao fd = new MovieDao();
+            Movie f = new Movie (nombre.getText(),director.getText(),pais.getText(),clasificacion.getSelectedItem().toString(),
+            Integer.parseInt(anio.getText()),true);
+           
+            if (no.isSelected()){
+                f.setEn_proyeccion(false);
+            }
+            if(fd.create(f)){
+                JOptionPane.showMessageDialog(null,"Filtro Registrado!");
+                limpiarCampos();
+                llenarTabla();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Ocurrio un error!");
+            }
+        }
+    });
         
-        insertar.addActionListener(new ActionListener() {
+        eliminar.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-              MovieDao md =new MovieDao();
-              Movie m = new Movie(Nombre.getText(), Director.getText(),Pais.getText(), (String) Clasificacion.getSelectedItem(),
-                      Integer.parseInt(Año.getText()),true);
-            
-                if (md.create(m)){
-                    JOptionPane.showMessageDialog(null,"Pelicula registrado con exito");
+                MovieDao fd = new MovieDao();
+                if(fd.delete(nombre.getText())){
+                   JOptionPane.showMessageDialog(null,"Filtro eliminado");
+                    limpiarCampos();
+                    llenarTabla(); 
+                }else{
+                    JOptionPane.showMessageDialog(null,"Ocurrio un problema al momento de eliminar el filtro");
+                }
+       }
+        });
+
+        actualizar.addActionListener(new ActionListener(){
+            @Override
+
+            public void actionPerformed(ActionEvent e){
+
+                MovieDao fd = new MovieDao();
+                Movie f = new Movie (nombre.getText(),director.getText(),pais.getText(),clasificacion.getSelectedItem().toString(),
+                Integer.parseInt(anio.getText()),true);
+
+                if(no.isSelected()){
+                    f.setEn_proyeccion(false);
+                }
+                if(fd.update(f)){
+                    JOptionPane.showMessageDialog(null,"Filtro Modificado con exito");
                     limpiarCampos();
                     llenarTabla();
                 }else{
@@ -176,66 +234,34 @@ public class consulta extends JFrame{
                 }
             }
         });
-        actualizar.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-            MovieDao md = new MovieDao();
-            Movie m = new Movie(Nombre.getText(), Director.getText(),Pais.getText(), (String) Clasificacion.getSelectedItem(),
-                      Integer.parseInt(Año.getText()),true);
-             
-            if(si.isSelected()){
-                m.setEnProyeccion(true);
-            }
-            
-            if (md.update(m)){
-               JOptionPane.showMessageDialog(null,"Filtro Modificado con exito");
-               limpiarCampos();
-               llenarTabla();
-            } else{
-                JOptionPane.showMessageDialog(null,"Ocurrio un problema al momento de modificar el filtro");
-            }
-            }    
-        });
-        
-        eliminar.addActionListener((ActionEvent e) -> {
-            MovieDao md = new MovieDao();
-            if(md.delete(Nombre.getText())){
-                JOptionPane.showMessageDialog(null,"Pelicula Eliminada con exito");
-                limpiarCampos();
-                llenarTabla();
-            }else{
-                JOptionPane.showMessageDialog(null, "El filtro buscado no se a encontrado");
-            }
-        });
-        
-        buscar.addActionListener((ActionEvent e) -> {
-            MovieDao md = new MovieDao();
-            Movie m = md.read(Nombre.getText());
-            if(m==null){
-                JOptionPane.showMessageDialog(null, "La pelicula no se a encontrado");
-            }else{
-                Director.setText(m.getDirector());
-                Clasificacion.setSelectedItem(m.getClasificacion());
-                Pais.setText(m.getPais());
-                
-            }
-        });
-        
-        }
-    public void limpiarCampos(){
-        Nombre.setText("");
-        Clasificacion.setSelectedItem("R");
-        Director.setText("");
-    }
-    
-     public static void main(String[] args) {
-        // TODO code application logic here
-        java.awt.EventQueue.invokeLater(new Runnable(){
+
+        buscar.addActionListener(new ActionListener(){
         @Override
-         public void run(){
-             new consulta().setVisible(true);
-         } 
+        public void actionPerformed(ActionEvent e){
+            MovieDao fd = new MovieDao();
+            Movie f = fd.read(nombre.getText());
+            if(f == null){
+                JOptionPane.showMessageDialog(null,"El filtro buscado no se ha encontrado");
+            }else{
+                director.setText(f.getDirector());
+                clasificacion.setSelectedItem(f.getClasificacion());
+                anio.setText(Integer.toString(f.getAño()));
+                pais.setText(f.getPais());
+
+                if(f.isEn_proyeccion()){
+                    si.setSelected(true);
+                }else{
+                    no.setSelected(true);
+                }
+            }
+        }
     });
     }
+    public void limpiarCampos(){
+        nombre.setText("");
+        director.setText("");
+        pais.setText("");
+        clasificacion.setSelectedItem("G");
+        anio.setText("");
+    }
 }
-    
